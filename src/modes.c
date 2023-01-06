@@ -17,6 +17,8 @@ err_t send_info(struct args_t* args, tty_handler_t* hserial)
         return send_info_text(argc, argv, hserial);
     case at:
         return send_info_at(argc, argv, hserial);
+    case hex:
+        return send_info_hex(argc, argv, hserial);
     default:
         return err_not_implemented;
     }
@@ -68,6 +70,23 @@ err_t send_info_text(int argc, char** argv, tty_handler_t* hserial)
         err_check(err_not_equal(err_num, file_size));
     }
 
+    return err_no;
+}
+
+err_t send_info_hex(int argc, char** argv, tty_handler_t* hserial)
+{
+    char *end = NULL;
+
+    for (int i = 0; i < argc; i++)
+    {
+        int hex_cmd_len = strlen(argv[i]) / 2;
+
+        int err_num;
+        unsigned long res = strtoul(argv[i], &end, 16);
+
+        err_num = TTY_Write(*hserial, (uint8_t *)(&res), hex_cmd_len);
+        err_check(err_not_equal(err_num, hex_cmd_len));
+    }
     return err_no;
 }
 

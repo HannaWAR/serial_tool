@@ -43,6 +43,10 @@ err_t parse_args(int argc, char** argv, struct args_t* hargs)
     {
         hargs->program_mode = at;
     }
+    else if(!strcmp(argv[min_args], "-hex"))
+    {
+        hargs->program_mode = hex;
+    }
     else
     {
         return err_unknown_mode;
@@ -101,7 +105,7 @@ err_t receive_info(struct args_t* args, tty_handler_t* hserial)
         else if(rv > 0)
         {
             /* there was data to read */
-            char buff;
+            uint8_t buff;
             rv = TTY_Read(*hserial, (uint8_t *)&buff, 1);
             if (rv == -1)
             {
@@ -110,6 +114,11 @@ err_t receive_info(struct args_t* args, tty_handler_t* hserial)
             }
             err_check(err_not_equal(rv, 1));
 
+            if(args->program_mode == hex)
+            {
+                printf("0x%02x ", buff);
+                continue;
+            }
             putchar(buff);
         }
     }

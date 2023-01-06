@@ -7,6 +7,7 @@ enum mode_t
     text,
     file,
     at,
+    hex,
     none
 };
 

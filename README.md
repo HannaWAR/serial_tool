@@ -20,6 +20,7 @@ Program uses 8 data bits mode, 1 stop bit, no parity, no flow control.
 * `-at` - [AT commands mode](#at-commands-mode)
 * `-file` - [send file mode](#send-file-mode)
 * `-text` - [send text from command line](#send-text-mode)
+* `-hex` - [send hex from command line](#send-hex-mode)
 
 ### AT commands mode
 Sends all next parameters to serial port with adding to all of it `\n\r` pair of symbols (carrier return & newline symbols), parameter by parameter
@@ -30,6 +31,9 @@ Understands all next parameters as file paths and sends all file content to seri
 
 ### Send text mode
 Sends all next parameters to serial port without changing, parameter by parameter
+
+### Send hex mode
+Sends all next parameters to serial port without changing, parameter by parameter. Expected command format: 55 aa 01 ff ff ff 06 04.
 
 # Error list
 Some errors generate by system functions. Program returns `errno` in that cases. Other errors description (you can see `inc/err.h` for new errors):
